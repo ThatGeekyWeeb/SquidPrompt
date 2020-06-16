@@ -12,7 +12,7 @@ function fish_prompt --description 'Write out the prompt'
         if set -q fish_color_cwd_root
             set color_cwd $fish_color_cwd_root
         end
-        set suffix '# - { '
+        set suffix '# - {'
     end
 
     # If we're running via SSH, change the host color.
@@ -31,10 +31,10 @@ function fish_prompt --description 'Write out the prompt'
     end
     set exit "Exit Code:["
     if [ "$USER" = "root" ]
-        echo -s (set_color $fish_color_user) "$user " (set_color normal) - (set_color red) " $exit" "$prompt_status" (set_color red) "]" (set_color normal)" - " (set_color brpurple) "["(prompt_pwd)"] " "- Time: $time"
+        echo -s (set_color $fish_color_user) "$USER " (set_color normal) - (set_color red) " $exit" "$prompt_status" (set_color red) "]" (set_color normal)" - " (set_color brpurple) "["(prompt_pwd)"] " "- Time: $time"
         echo -e (set_color normal) "$suffix"
     else
-        echo -s (set_color 87afaf) " {" (set_color $fish_color_user) "$user" (set_color 87afaf) "} " (set_color normal) - (set_color brpurple) " ["(prompt_pwd)"] " (set_color normal) - " $exit" "$prompt_status]"" - Time: $time"
+        echo -s (set_color 87afaf) " {" (set_color $fish_color_user) "$USER" (set_color 87afaf) "} " (set_color normal) - (set_color brpurple) " ["(prompt_pwd)"] " (set_color normal) - " $exit" "$prompt_status]"" - Time: $time"
         echo -e (set_color normal) "$suffix"
     end
 end
@@ -42,9 +42,9 @@ end
 function fish_right_prompt
     if [ $USER = "root" ]
         set -l normal (set_color normal)
-        echo -n -s (set_color normal) " }"(battery)
+        echo -n -s (set_color normal) "}"(battery)
     else
         set -l normal (set_color normal)
-        echo -n -s (set_color normal) " )"(battery)
+        echo -n -s (set_color normal) ")"(battery)
     end
 end
