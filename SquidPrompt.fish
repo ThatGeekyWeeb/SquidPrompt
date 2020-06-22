@@ -24,11 +24,15 @@ function fish_prompt --description 'Write out the prompt'
     # Write pipestatus
     set -l prompt_status (__fish_print_pipestatus "" "" "|" (set_color $fish_color_status) (set_color --bold $fish_color_status) $last_pipestatus)
 
-    if [ -n "$type" ]
-        set time (date +'%H:%M:%S')
+    if [ "$timetype" = "true" ]
+        if [ -n "$type" ]
+            set time (date +'%H:%M:%S')
+        else
+            set time "Now"
+        end
     else
-        set time "Now"
-    end
+        set time (date +'%H:%M%S')
+    end    
     set exit "Exit Code:["
     if [ "$USER" = "root" ]
         echo -s (set_color $fish_color_user) "$USER " (set_color normal) - (set_color red) " $exit" "$prompt_status" (set_color red) "]" (set_color normal)" - " (set_color brpurple) "["(prompt_pwd)"] " "- Time: $time"
