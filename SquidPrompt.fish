@@ -1,4 +1,5 @@
 # name: Squid Prompt
+# Custom Fish Shell Prompt Head 
 # author: ThatGeekyWeeb
 
 function fish_prompt --description 'Write out the prompt'
@@ -44,11 +45,21 @@ function fish_prompt --description 'Write out the prompt'
 end
 
 function fish_right_prompt
-    if [ $USER = "root" ]
-        set -l normal (set_color normal)
-        echo -n -s (set_color normal) "}"(battery)
+    if [ "$bat" = "true" ]
+        	if [ "$USER" = "root" ]
+            		set -l normal (set_color normal)
+            		echo -n -s (set_color normal) "}"(battery)
+        	else
+        		set -l normal (set_color normal)
+        		echo -n -s (set_color normal) ")"(battery)
+        	end
     else
-        set -l normal (set_color normal)
-        echo -n -s (set_color normal) ")"(battery)
-    end
+        	if [ "$USER" = "root" ]
+            		set -l normal (set_color normal)
+            		echo -n -s (set_color normal) "}"
+        	else
+            		set -l normal (set_color normal)
+            		echo -n -s (set_color normal) ")"
+        	end
+        end	
 end
