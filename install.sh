@@ -1,13 +1,32 @@
-#!/bin/sh
+#!/bin/bash
+do_remove() {
+printf "\e[5;1;4;31mWARNING: 'config.fish' WILL BE REMOVED\e\n"
+printf "\e[5;1;4;31mPRESS CTRL+C TO CANCEL\e\n"
+printf "\e[5;1;4;31mWILL CONTINUE AFTER 5"
+echo -e "\e[5;1;4;31m....." | pv -qL 2 & sleep 8
+rm "$HOME/.config/fish/functions/fish_prompt.fish"
+rm "$HOME/.config/fish/config.fish"
+echo "SquidPrompt Has Been Removed"
+exit 0
+}
+
 ./Xdialog --rc-file --wmname KWin --backtitle "TGW ~ ThatGeekyWeeb ~ ZsRR" --title "Choice Box!" \
         --checklist "Hi, this is a checklist box. You can use this to\n\
 present a list of choices which can be turned on or\n\
 off. If there are more items than can fit on the\n\
 screen, the list will be scrolled.\n\n\
-Which of the following are fruits?" 30 70 3 \
+Which of the following are fruits?" 30 70 4 \
         "Battery"    "Non-Posix 3rd Party Item" off \
         "TimeType"   "'Time='Now'" off \
-        "None"       "Basic Install" off 2> /tmp/checklist.tmp.$$
+        "None"       "Basic Install" off \
+        "Uninstall"  "REMOVE SQUID-PROMPT" off 2> /tmp/checklist.tmp.$$
+case $? in
+    	1)
+        	exit 1;;
+        255)
+            	exit 1;;
+esac
+        	
 
 timetype1() {
 	touch -a "$HOME/.config/fish/config.fish"
@@ -30,8 +49,6 @@ retval=$?
 
 choice=`cat /tmp/checklist.tmp.$$`
 case $retval in
-  0)
-    echo "$choice chosen.";;
   1)
     echo "Cancel pressed."
     exit 1;;
@@ -41,7 +58,10 @@ case $retval in
 esac
 var1=$(echo "$choice")
 choice=""
-echo "$var1"
+if [ "$var1" = "Uninstall" ]; then
+    do_remove
+    exit 0
+fi
 case $? in
     	0)
         	./Xdialog --title "Installing Battery" --yesno "Installing 'Battery'
